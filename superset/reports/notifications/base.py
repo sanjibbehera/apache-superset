@@ -35,6 +35,11 @@ class NotificationContent:
     url: Optional[str] = None  # url to chart/dashboard for this screenshot
     embedded_data: Optional[pd.DataFrame] = None
 
+    aws_access_key: Optional[str] = None
+    aws_secret_key: Optional[str] = None
+    aws_iam_arn_role: Optional[str] = None
+    aws_S3_types: Optional[str] = None
+
 
 class BaseNotification:  # pylint: disable=too-few-public-methods
     """

@@ -158,6 +158,7 @@ export default function HeaderReportDropDown({
     setCurrentReportDeleting(null);
   };
 
+  const s3Bool = isFeatureEnabled(FeatureFlag.ENABLE_S3);
   const shouldFetch =
     canAddReports() &&
     !!((dashboardId && prevDashboard !== dashboardId) || chart?.id);
@@ -306,6 +307,21 @@ export default function HeaderReportDropDown({
             }
           />
           {useTextMenu ? textMenu() : iconMenu()}
+          {s3Bool && (
+            <Menu selectable={false} css={onMenuHover}>
+              <Menu.Item onClick={handleShowMenu}>
+                {DropdownItemExtension ? (
+                  <StyledDropdownItemWithIcon>
+                    <div>{t('Set up an AWS S3 report')}</div>
+                    <DropdownItemExtension />
+                  </StyledDropdownItemWithIcon>
+                ) : (
+                  t('Set up an AWS S3 report')
+                )}
+              </Menu.Item>
+              <Menu.Divider />
+            </Menu>
+          )}
           {currentReportDeleting && (
             <DeleteModal
               description={t(

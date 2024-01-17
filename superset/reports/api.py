@@ -120,6 +120,10 @@ class ReportScheduleRestApi(BaseSupersetModelRestApi):
         "validator_config_json",
         "validator_type",
         "working_timeout",
+        "aws_secret_key",
+        "aws_access_key",
+        "aws_iam_arn_role",
+        "aws_S3_types",
     ]
     show_select_columns = show_columns + [
         "chart.datasource_id",

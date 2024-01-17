@@ -64,6 +64,7 @@ export enum FeatureFlag {
   UX_BETA = 'UX_BETA',
   VERSIONED_EXPORT = 'VERSIONED_EXPORT',
   SSH_TUNNELING = 'SSH_TUNNELING',
+  ENABLE_S3 = 'ENABLE_S3',
 }
 export type ScheduleQueriesProps = {
   JSONSCHEMA: {

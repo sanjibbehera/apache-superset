@@ -407,10 +407,23 @@ def cached_common_bootstrap_data(user: User) -> Dict[str, Any]:
         for k in FRONTEND_CONF_KEYS
     }
 
-    if conf.get("SLACK_API_TOKEN"):
+    isS3Configured = get_feature_flags()['ENABLE_S3'] if "ENABLE_S3" in get_feature_flags() else False
+    # if conf.get("SLACK_API_TOKEN"):
+    if conf.get("SLACK_API_TOKEN") and not isS3Configured:
         frontend_config["ALERT_REPORTS_NOTIFICATION_METHODS"] = [
             ReportRecipientType.EMAIL,
             ReportRecipientType.SLACK,
+        ]
+    elif isS3Configured and conf.get("SLACK_API_TOKEN"):
+        frontend_config["ALERT_REPORTS_NOTIFICATION_METHODS"] = [
+            ReportRecipientType.EMAIL,
+            ReportRecipientType.SLACK,
+            ReportRecipientType.S3,
+        ]
+    elif isS3Configured and not conf.get("SLACK_API_TOKEN"):
+        frontend_config["ALERT_REPORTS_NOTIFICATION_METHODS"] = [
+            ReportRecipientType.EMAIL,
+            ReportRecipientType.S3,
         ]
     else:
         frontend_config["ALERT_REPORTS_NOTIFICATION_METHODS"] = [

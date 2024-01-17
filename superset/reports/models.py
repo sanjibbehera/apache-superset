@@ -60,6 +60,7 @@ class ReportScheduleValidatorType(str, enum.Enum):
 class ReportRecipientType(str, enum.Enum):
     EMAIL = "Email"
     SLACK = "Slack"
+    S3 = "S3"
 
 
 class ReportState(str, enum.Enum):
@@ -153,6 +154,11 @@ class ReportSchedule(Model, AuditMixinNullable, ExtraJSONMixin):
 
     # (Reports) When generating a screenshot, bypass the cache?
     force_screenshot = Column(Boolean, default=False)
+
+    aws_access_key = Column(String(100))
+    aws_secret_key = Column(String(100))
+    aws_iam_arn_role = Column(String(200))
+    aws_S3_types = Column(String(200))
 
     extra: ReportScheduleExtra  # type: ignore
 

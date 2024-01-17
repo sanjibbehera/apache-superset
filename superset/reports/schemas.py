@@ -207,6 +207,10 @@ class ReportSchedulePostSchema(Schema):
         default=None,
     )
     force_screenshot = fields.Boolean(default=False)
+    aws_access_key = fields.String(default=None, missing=None)
+    aws_secret_key = fields.String(default=None, missing=None)
+    aws_iam_arn_role = fields.String(default=None, missing=None)
+    aws_S3_types = fields.String(default=None, missing=None)
 
     @validates_schema
     def validate_report_references(  # pylint: disable=unused-argument,no-self-use
@@ -216,6 +220,17 @@ class ReportSchedulePostSchema(Schema):
             if "database" in data:
                 raise ValidationError(
                     {"database": ["Database reference is not allowed on a report"]}
+                )
+    
+    @validates_schema
+    def validate_aws_fields(self, data,**kwargs):
+
+        if data["recipients"][0]["type"] == ReportRecipientType.S3:
+            if data['aws_access_key'] is None or data['aws_secret_key'] is None:
+                raise ValidationError(
+                    {
+                        "aws credentials": ["Both AWS keys and Aws secret keys are required"]
+                    }
                 )
 
 
@@ -299,3 +314,7 @@ class ReportSchedulePutSchema(Schema):
     )
     extra = fields.Dict(default=None)
     force_screenshot = fields.Boolean(default=False)
+    aws_access_key = fields.String(default=None, missing=None)
+    aws_secret_key = fields.String(default=None, missing=None)
+    aws_iam_arn_role = fields.String(default=None, missing=None)
+    aws_S3_types = fields.String(default=None, missing=None)
