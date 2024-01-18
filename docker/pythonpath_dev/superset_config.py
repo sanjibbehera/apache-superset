@@ -102,9 +102,32 @@ CELERY_CONFIG = CeleryConfig
 
 SLACK_API_TOKEN="Xob-not-a-real-token"
 
+# Email configuration
+SMTP_HOST = "smtp.sendgrid.net" # change to your host
+SMTP_PORT = 2525 # your port, e.g. 587
+SMTP_STARTTLS = True
+SMTP_SSL_SERVER_AUTH = True # If your using an SMTP server with a valid certificate
+SMTP_SSL = False
+SMTP_USER = "your_user" # use the empty string "" if using an unauthenticated SMTP server
+SMTP_PASSWORD = "your_password" # use the empty string "" if using an unauthenticated SMTP server
+SMTP_MAIL_FROM = "noreply@youremail.com"
+EMAIL_REPORTS_SUBJECT_PREFIX = "[Superset] " # optional - overwrites default value in config.py of "[Report] "
+
+WEBDRIVER_TYPE = "chrome"
+WEBDRIVER_OPTION_ARGS = [
+    "--force-device-scale-factor=2.0",
+    "--high-dpi-support=2.0",
+    "--headless",
+    "--disable-gpu",
+    "--disable-dev-shm-usage",
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-extensions",
+]
+
 # AWS Credentials.....
-AWS_ACCESS_KEY = 'AKIAXQNUE5NT5J44XRQR'
-AWS_SECRET_KEY = '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'
+AWS_ACCESS_KEY = 'XXXXXXXXX'
+AWS_SECRET_KEY = 'XXXXXXXXXXXX'
 AWS_REGION = 'ap-south-1'
 
 FEATURE_FLAGS = {"ALERT_REPORTS": True, "ENABLE_S3": True}
