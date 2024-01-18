@@ -243,10 +243,10 @@ export const NotificationMethod: FunctionComponent<NotificationMethodProps> = ({
             }}
             css={noBottomMargin}
           />
-          <div className="control-label">{t('AWS IAM ROLE')}</div>
+          <div className="control-label">{t('AWS IAM ROLE ARN')}</div>
           <LabeledErrorBoundInput
             type="password"
-            placeholder={t('Type[ AWS IAM ROLE ]')}
+            placeholder={t('Type[ AWS IAM ROLE ARN ]')}
             name="bucketName"
             value={iamRole}
             // onChange={e => setIamRole(e.target.value)}

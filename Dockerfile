@@ -116,8 +116,10 @@ CMD /usr/bin/run-server.sh
 # Dev image...
 ######################################################################
 FROM lean AS dev
-ARG GECKODRIVER_VERSION=v0.32.0
-ARG FIREFOX_VERSION=106.0.3
+# ARG GECKODRIVER_VERSION=v0.32.0
+# ARG FIREFOX_VERSION=106.0.3
+ARG GECKODRIVER_VERSION=v0.33.0 \
+    FIREFOX_VERSION=117.0.1
 
 COPY ./requirements/*.txt ./docker/requirements-*.txt/ /app/requirements/
 
@@ -131,18 +133,24 @@ RUN apt-get update -y \
           libx11-xcb1 \
           libasound2 \
           libxtst6 \
-          wget
+          wget \
+          # Install GeckoDriver WebDriver
+    && wget -q https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O - | tar xfz - -C /usr/local/bin \
+    # Install Firefox
+    && wget -q https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O - | tar xfj - -C /opt \
+    && ln -s /opt/firefox/firefox /usr/local/bin/firefox \
+    && apt-get autoremove -yqq --purge wget && rm -rf /var/[log,tmp]/* /tmp/* /var/lib/apt/lists/*
 
 # Install GeckoDriver WebDriver
-RUN wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O /tmp/geckodriver.tar.gz && \
-    tar xvfz /tmp/geckodriver.tar.gz -C /tmp && \
-    mv /tmp/geckodriver /usr/local/bin/geckodriver && \
-    rm /tmp/geckodriver.tar.gz
+# RUN wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O /tmp/geckodriver.tar.gz && \
+#     tar xvfz /tmp/geckodriver.tar.gz -C /tmp && \
+#     mv /tmp/geckodriver /usr/local/bin/geckodriver && \
+#     rm /tmp/geckodriver.tar.gz
 
-# Install Firefox
-RUN wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O /opt/firefox.tar.bz2 && \
-    tar xvf /opt/firefox.tar.bz2 -C /opt && \
-    ln -s /opt/firefox/firefox /usr/local/bin/firefox
+# # Install Firefox
+# RUN wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O /opt/firefox.tar.bz2 && \
+#     tar xvf /opt/firefox.tar.bz2 -C /opt && \
+#     ln -s /opt/firefox/firefox /usr/local/bin/firefox
 
 # Cache everything for dev purposes...
 RUN cd /app \

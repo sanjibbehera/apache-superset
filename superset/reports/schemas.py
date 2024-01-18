@@ -22,6 +22,7 @@ from marshmallow import fields, Schema, validate, validates_schema
 from marshmallow.validate import Length, Range, ValidationError
 from marshmallow_enum import EnumField
 from pytz import all_timezones
+from superset.reports.notifications.s3 import S3SubTypes
 
 from superset.reports.models import (
     ReportCreationMethod,
@@ -225,7 +226,7 @@ class ReportSchedulePostSchema(Schema):
     @validates_schema
     def validate_aws_fields(self, data,**kwargs):
 
-        if data["recipients"][0]["type"] == ReportRecipientType.S3:
+        if data["recipients"][0]["type"] == ReportRecipientType.S3 and data['aws_S3_types'] == S3SubTypes.S3_CRED:
             if data['aws_access_key'] is None or data['aws_secret_key'] is None:
                 raise ValidationError(
                     {

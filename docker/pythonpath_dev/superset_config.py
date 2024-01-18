@@ -103,9 +103,9 @@ CELERY_CONFIG = CeleryConfig
 SLACK_API_TOKEN="Xob-not-a-real-token"
 
 # AWS Credentials.....
-# AWS_ACCESS_KEY = '###############'
-# AWS_SECRET_KEY = '###############'
-# AWS_REGION = '#######'
+AWS_ACCESS_KEY = 'AKIAXQNUE5NT5J44XRQR'
+AWS_SECRET_KEY = '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'
+AWS_REGION = 'ap-south-1'
 
 FEATURE_FLAGS = {"ALERT_REPORTS": True, "ENABLE_S3": True}
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
